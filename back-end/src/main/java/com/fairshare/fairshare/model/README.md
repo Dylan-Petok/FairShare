@@ -1,0 +1,1 @@
+represents database tables and stores data

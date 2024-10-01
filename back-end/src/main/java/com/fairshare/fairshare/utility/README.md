@@ -1,0 +1,1 @@
+contains reusable methods that do not belong to a specific domain
