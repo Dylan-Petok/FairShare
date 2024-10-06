@@ -1,4 +1,6 @@
 package com.fairshare.fairshare.service;
+import com.fairshare.fairshare.model.Expense;
+
 
 //defining crud methods for the expense entity
 
@@ -49,7 +51,6 @@ public interface ExpenseService {
      * get the participants and percentages of those involved in an expense
      * @return
      */
-    Map<User, Double> getExpenseParticipants();
 
     
 

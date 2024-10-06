@@ -1,4 +1,5 @@
 package com.fairshare.fairshare.service;
+import com.fairshare.fairshare.model.Debt;
 
 //defining crud operations for debt entity
 

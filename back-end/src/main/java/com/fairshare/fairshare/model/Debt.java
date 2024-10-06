@@ -1,17 +1,32 @@
 package com.fairshare.fairshare.model;
-
 import java.lang.annotation.Inherited;
+import javax.annotation.processing.Generated;
+import javax.persistence.*;
 
+
+@Entity
+@Table(name="debts")
 public class Debt {
-    @ID 
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long debtID;
+
+    @Column(nullable = false)
     private User debtBorrower;
+
+    @Column(nullable = false)
     private User debtLender; 
+
+    @Column(nullable = false)
     private double amountOwed;
+
+    @Column(nullable = false)
     private boolean isDebtSettled;
 
+    public Debt(){
 
+    }
+    
     public Debt(User debtBorrower, User debtLender, double amountOwed, boolean isDebtSettled){
         this.debtBorrower = debtBorrower;
         this.debtLender = debtLender;

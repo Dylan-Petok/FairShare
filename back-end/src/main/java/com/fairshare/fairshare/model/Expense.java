@@ -1,28 +1,55 @@
 package com.fairshare.fairshare.model;
 
-import java.lang.annotation.Inherited;
+import com.fairshare.fairshare.model.User;
+
+import javax.annotation.processing.Generated;
 import javax.persistence.*;
 
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Date;
 
+
+
+@Entity
+@Table(name="expenses")
 public class Expense {
-    @ID 
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long expenseID;
+
+    @Column(nullable = false)
     private String expenseName;
     private String expenseDesc;
+
+    @Column(nullable = false)
     private double totalExpenseAmount;
-    private date expenseDate;
+
+    @Column(nullable = false)
+    private Date expenseDate;
+
+    @Column(nullable = false)
     private User paidByUser;
-    private Map<User, Double> usersIncludedInExpense = new HashMap<>();
 
+    @ManyToMany
+    @JoinTable(
+        name = "expense_members",
+        joinColumns = @JoinColumn(name = "expenseID"),
+        inverseJoinColumns = @JoinColumn(name = "userID")
+    )
 
-    public Expense(String expenseName, String expenseDesc, double totalExpenseAmount, date expenseDate, user paidByUser, Map<User, Double> usersIncludedInExpense){
+    private Set<User> usersIncludedInExpense = new HashSet<>();  // Users who are part of this expense
+
+    public Expense(){
+
+    }
+
+    public Expense(String expenseName, String expenseDesc, double totalExpenseAmount, Date expenseDate, User paidByUser){
         this.expenseName = expenseName;
         this.expenseDesc = expenseDesc;
         this.totalExpenseAmount = totalExpenseAmount;
         this.expenseDate = expenseDate;
         this.paidByUser = paidByUser;
-        this.usersIncludedInExpense = usersIncludedInExpense;
     }
 
     public long getExpenseID(){
@@ -69,11 +96,11 @@ public class Expense {
         this.paidByUser = paidByUser;
     }
 
-    public Set<User, Double> getUsersIncludedInExpense(){
+    public Set<User> getUsersIncludedInExpense(){
         return usersIncludedInExpense;
     }
 
-    public void setUsersIncludedInExpense(Map<User, Double> usersIncludedInExpense){
+    public void setUsersIncludedInExpense(Set<User> usersIncludedInExpense){
         this.usersIncludedInExpense = usersIncludedInExpense;
     }
 }

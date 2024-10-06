@@ -1,4 +1,8 @@
 package com.fairshare.fairshare.service;
+import com.fairshare.fairshare.model.Group;
+import java.util.Set;
+import java.util.HashSet;
+
 
 //defining crud operations for group entity
 
@@ -42,13 +46,13 @@ public interface GroupService {
      * @param users
      * @param groupID
      */
-    void updateUsersInGroup(List<User> users, Long groupID);
+    // void updateUsersInGroup(List<User> users, Long groupID);
     /**
      * update expenses in a group
-     * @param expenses
-     * @param expenseID
+    //  * @param expenses
+    //  * @param expenseID
      */
-    void updateExpensesInGroup(List<Expense> expenses, Long expenseID);
+    // void updateExpensesInGroup(List<Expense> expenses, Long expenseID);
 
 
     /**
@@ -61,12 +65,7 @@ public interface GroupService {
      * get users in a group
      * @return
      */
-    List<User> getUsersInGroup();
-    /**
-     * get expenses in a group
-     * @return
-     */
-    List<Expense> getExpensesInGroup();
+   
 
 
 }

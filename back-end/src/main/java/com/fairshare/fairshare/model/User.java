@@ -1,27 +1,37 @@
 package com.fairshare.fairshare.model;
+import jakarta.persistence.*;
 
-import javax.persistence.*;
 
 @Entity
+@Table(name = "users")
 public class User {
     @Id
+    @Column(nullable = false, unique = true)
     private String userName;
+    
+    @Column(nullable = false)
     private String firstName;
+
+    @Column(nullable = false)
     private String lastName;
+
+    @Column(nullable = false)
     private String emailAddr;
-    private String password;
-    @Column(nullable = true)
+
+    @Column(nullable = false)
+    private String passwordHash;
+
     private String profilePicUrl;
 
     public User(){
     }
 
-    public User(String userName, String firstName, String lastName, String emailAddr, String password, String profilePicUrl){
+    public User(String userName, String firstName, String lastName, String emailAddr, String passwordHash, String profilePicUrl){
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddr = emailAddr;
-        this.password = password;
+        this.passwordHash = passwordHash;
         this.profilePicUrl = profilePicUrl;
     }
 
@@ -54,11 +64,11 @@ public class User {
     }
 
     public String getPassword(){
-        return password;
+        return passwordHash;
     }
 
-    public void setPassword(String password){
-        this.password = password;
+    public void setPassword(String passwordHash){
+        this.passwordHash = passwordHash;
     }
 
     public String getProfilePicUrl(){
