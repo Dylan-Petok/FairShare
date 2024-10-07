@@ -1,19 +1,22 @@
-package com.fairshare.fairshare.dto;
+package com.fairshare.fairshare.dto.userDTO;
 
-public class UserDTO {
+public class userRegDTO {
+
     private String userName;
     private String firstName;
     private String lastName;
     private String emailAddr;
     private String profilePicUrl;
+    private String password;
     
     //constructor with parameters
-    public UserDTO(String userName, String firstName, String lastName, String emailAddr, String profilePicUrl){
+    public userRegDTO(String userName, String firstName, String lastName, String emailAddr, String profilePicUrl, String password){
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddr = emailAddr;
         this.profilePicUrl = profilePicUrl;
+        this.password = password;
     }
 
 
@@ -54,8 +57,18 @@ public class UserDTO {
         return profilePicUrl;
     }
 
-    public void setProfilePicUrl(String profilePicUrl) {
-        this.profilePicUrl = profilePicUrl;
+    public void setProfilePicUrl(String hashedPassword) {
+        this.hashedPassword = hashedPassword;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }
+
+
