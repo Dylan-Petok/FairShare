@@ -7,6 +7,10 @@ public class UserDTO {
     private String emailAddr;
     private String profilePicUrl;
     
+    //default constructor
+    public UserDTO(){
+    }
+
     //constructor with parameters
     public UserDTO(String userName, String firstName, String lastName, String emailAddr, String profilePicUrl){
         this.userName = userName;

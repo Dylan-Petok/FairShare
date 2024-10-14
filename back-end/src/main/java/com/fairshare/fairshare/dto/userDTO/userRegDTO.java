@@ -57,8 +57,8 @@ public class userRegDTO {
         return profilePicUrl;
     }
 
-    public void setProfilePicUrl(String hashedPassword) {
-        this.hashedPassword = hashedPassword;
+    public void setProfilePicUrl(String profilePicUrl) {
+        this.profilePicUrl = profilePicUrl;
     }
 
     public String getPassword() {

@@ -55,6 +55,10 @@ public class User {
         return lastName;
     }
 
+    public void setLastName(String lastName){
+        this.lastName = lastName;
+    }
+
     public String getEmailAddr(){
         return emailAddr;
     }

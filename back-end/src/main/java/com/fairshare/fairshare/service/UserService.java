@@ -1,6 +1,7 @@
 package com.fairshare.fairshare.service;
 import com.fairshare.fairshare.model.User;
-import com.fairshare.fairshare.dto.userDTO.userDTO;
+import com.fairshare.fairshare.dto.userDTO.UserDTO;
+import com.fairshare.fairshare.dto.userDTO.userLoginDTO;
 import com.fairshare.fairshare.dto.userDTO.userRegDTO;
 
 
@@ -13,7 +14,14 @@ public interface UserService {
      * add a user to the database
      * @param user
      */
-    UserDTO createUser(User userDto);
+    UserDTO createUser(userRegDTO user);
+
+    /**
+     * log a user in
+     * @param user
+     * @return
+     */
+    UserDTO loginUser(userLoginDTO user);
 
     /**
      * update a users email address

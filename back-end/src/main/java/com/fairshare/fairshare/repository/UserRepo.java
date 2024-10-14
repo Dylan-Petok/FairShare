@@ -16,11 +16,13 @@ public interface UserRepo extends JpaRepository<User, String> {
     //defining interface extending jparepo
     //generic types user and long specify that this repo will manage 'User' entities and the primary key (ID) is type 'String'
     
-    User findByuserName(String userName);
+    User findByUserName(String userName);
 
-    void deleteByuserName(String userName);
+    void deleteByUserName(String userName);
 
-    boolean existsByuserName(String userName);
+    boolean existsByUserName(String userName);
+
+    boolean existsByEmailAddr(String emailAddr);
 
     
 
