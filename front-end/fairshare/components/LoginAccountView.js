@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import { View, TextInput, Button, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native';
+import { loginUser } from '../services/authService'; // Adjust the import path as needed
+
 
 export default function LoginAccountView({ navigation }){
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSubmit = () => {
-        console.log("UserName Submitted", userName);
-        console.log("Password Submitted", password);
+    const handleLogin = async () => {
+      try{
+        const userData = await loginUser(userName, password);
+        console.log(userData);
+        navigation.navigate('Home');
+      } catch(error){
+        console.error('Login account error:', error.message); // This will log to the browser console
+        Alert.alert('Login Failed', error.message); // this will log error on the phone
+      }
     };
 
     return(
         <View style={styles.container}>
-            <Text style={styles.title}> Create Account </Text>
+            <Text style={styles.title}> Log In </Text>
 
             <TextInput
                 style={styles.input}
@@ -29,10 +37,10 @@ export default function LoginAccountView({ navigation }){
                 onChangeText={setPassword}
             />
 
-            <Button title="Submit" onPress={handleSubmit} />
+            <Button title="Submit" onPress={handleLogin} />
 
-            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                <Text style={styles.link}>Or Log in here</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('CreateAccount')}>
+                <Text style={styles.link}>Create New Account</Text>
             </TouchableOpacity>
         </View>
     );
@@ -44,7 +52,7 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: 'center',
       padding: 20,
-      backgroundColor: '#fff',
+      backgroundColor: 'white',
     },
     title: {
       fontSize: 24,

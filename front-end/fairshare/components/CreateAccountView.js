@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import { View, TextInput, Button, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native';
+import { createUser } from '../services/authService'; // Adjust the import path as needed
+
 
 export default function CreateAccountView({ navigation }){
     const [userName, setUserName] = useState('');
@@ -8,12 +10,15 @@ export default function CreateAccountView({ navigation }){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSubmit = () => {
-        console.log("Email", email);
-        console.log("Password", password);
-        console.log("First Name", firstName);
-        console.log("Last Name", lastName),
-        console.log("UserName", userName);
+    const handleCreateAccount = async () => {
+        try{
+            const userData = await createUser(email, userName, firstName, lastName, password);
+            navigation.navigate('Home');
+            console.log(userData);
+        } catch(error){
+            console.error('Create account error:', error.message); // This will log to the browser console
+            Alert.alert('Account could not be created', error.message);
+        }
     };
 
     return(
@@ -56,10 +61,10 @@ export default function CreateAccountView({ navigation }){
                 onChangeText={setPassword}
             />
 
-            <Button title="Submit" onPress={handleSubmit} />
+            <Button title="Submit" onPress={handleCreateAccount} />
 
             <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                <Text style={styles.link}>Or Log in here</Text>
+                <Text style={styles.link}>Log in here</Text>
             </TouchableOpacity>
         </View>
     );
