@@ -17,6 +17,9 @@
 @REM specific language governing permissions and limitations
 @REM under the License.
 @REM ----------------------------------------------------------------------------
+:: Set JAVA_HOME to JDK 17
+@SET JAVA_HOME=C:\path\to\your\jdk-17
+@SET PATH=%JAVA_HOME%\bin;%PATH%
 
 @REM ----------------------------------------------------------------------------
 @REM Apache Maven Wrapper startup batch script, version 3.3.2

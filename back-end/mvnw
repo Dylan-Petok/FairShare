@@ -29,6 +29,11 @@
 #   MVNW_VERBOSE - true: enable verbose log; debug: trace the mvnw script; others: silence the output
 # ----------------------------------------------------------------------------
 
+# Set JAVA_HOME to JDK 17
+export JAVA_HOME="C:\Program Files\Java\jdk-17"
+export PATH=$JAVA_HOME/bin:$PATH
+
+
 set -euf
 [ "${MVNW_VERBOSE-}" != debug ] || set -x
 
