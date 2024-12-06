@@ -8,8 +8,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @SpringBootApplication
 @EnableJpaRepositories("com.fairshare.fairshare.repository")
-@ComponentScan(basePackages = { "com.fairshare.fairshare." })
-@EntityScan("com.fairshare.fairshare.model")
+@EntityScan(basePackages = "com.fairshare.fairshare.model")
+@ComponentScan(basePackages = { "com.fairshare.fairshare" })
 public class FairshareApplication {
 
 	public static void main(String[] args) {

@@ -1,82 +1,55 @@
 package com.fairshare.fairshare.model;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import jakarta.persistence.*;
 
+import java.util.Set;
+import java.util.HashSet;
 
 @Entity
 @Table(name = "users")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
-    @Column(nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long userID;
+
+    @Column(nullable = true, unique = true)
     private String userName;
-    
+
     @Column(nullable = false)
     private String firstName;
 
     @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable = false)
-    private String emailAddr;
+    @Column(nullable = true, unique = true)
+    private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String passwordHash;
 
     private String profilePicUrl;
 
-    public User(){
-    }
+    @Column(nullable = false)
+    private boolean isGuest;
 
-    public User(String userName, String firstName, String lastName, String emailAddr, String passwordHash, String profilePicUrl){
-        this.userName = userName;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.emailAddr = emailAddr;
-        this.passwordHash = passwordHash;
-        this.profilePicUrl = profilePicUrl;
-    }
+    @ManyToMany(mappedBy = "groupMembers")
+    private Set<Group> groups = new HashSet<>();
 
-    public String getUserName(){
-        return userName;
-    }
+    @OneToMany(mappedBy = "paidByUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Expense> expensesPaid = new HashSet<>();
 
-    public void setUserName(String userName){
-        this.userName = userName;
-    }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ExpenseParticipant> expenseParticipants = new HashSet<>();
 
-    public String getFirstName(){
-        return firstName;
-    }
+    @OneToMany(mappedBy = "debtBorrower", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Debt> debtsBorrowed = new HashSet<>();
 
-    public void setFirstName(String firstName){
-        this.firstName = firstName;
-    }
-
-    public String getLastName(){
-        return lastName;
-    }
-
-    public String getEmailAddr(){
-        return emailAddr;
-    }
-
-    public void setEmailAddr(String emailAddr){
-        this.emailAddr = emailAddr;
-    }
-
-    public String getPassword(){
-        return passwordHash;
-    }
-
-    public void setPassword(String passwordHash){
-        this.passwordHash = passwordHash;
-    }
-
-    public String getProfilePicUrl(){
-        return profilePicUrl;
-    }
-
-    public void setProfilePicUrl(String profilePicUrl){
-        this.profilePicUrl = profilePicUrl;
-    }
-
+    @OneToMany(mappedBy = "debtLender", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Debt> debtsLent = new HashSet<>();
 }
