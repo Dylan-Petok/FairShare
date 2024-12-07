@@ -1,5 +1,7 @@
 -------- USER MANUAL --------
 
+has to be run in master branch!
+
 Using postgres database, must change application.properties file to configure local postgres database
 
 NEED TO DOWNLOAD EXPO GO ON MOBILE PHONE, PREFERABLY IPHONE AS THIS WAS TESTED ON IPHONE
