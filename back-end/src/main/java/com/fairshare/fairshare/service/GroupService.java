@@ -20,6 +20,8 @@ import com.fairshare.fairshare.repository.ExpenseRepo;
 import com.fairshare.fairshare.utility.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -60,7 +62,8 @@ public class GroupService {
 
 
    public Group createGroup(Group group, String token) {
-        String creatorUsername = jwtUtil.extractUsername(token);
+        
+    String creatorUsername = jwtUtil.extractUsername(token);
         User creator = userRepo.findByUserName(creatorUsername);
         if (creator == null) {
             throw new IllegalArgumentException("Group creator not found");
@@ -74,13 +77,21 @@ public class GroupService {
                 User guest = new User();
                 guest.setFirstName(member.getFirstName());
                 guest.setLastName(member.getLastName());
+                String cleanFirstName = member.getFirstName().trim();
+                String cleanLastName = member.getLastName().trim();
+                String guestUsername = (cleanFirstName + cleanLastName).replaceAll("\\s+", "_").toLowerCase() + "_guest";
+                guest.setUserName(guestUsername);                
                 guest.setGuest(true);
                 userRepo.save(guest);
                 groupMembers.add(guest);
+                logger.info("Created and added guest user: userID={}, userName={}", guest.getUserID(), guest.getUserName());
             } else {
                 User existingUser = userRepo.findByUserName(member.getUserName());
                 if (existingUser != null) {
                     groupMembers.add(existingUser);
+                } else{
+                    logger.info("User could not be found in repo={}, userName={}", member.getFirstName());
+
                 }
             }
         }
@@ -135,14 +146,28 @@ public class GroupService {
         }
     }
 
+    @Transactional
     public List<GroupDTO> getGroupsByUser(String username) {
+        logger.info("getGroupsByUser called with username={}", username);
         User user = userRepo.findByUserName(username);
         if (user == null) {
+            logger.error("User not found for username={}", username);
             throw new IllegalArgumentException("User not found");
         }
         List<Group> groups = groupRepo.findByGroupMembersContaining(user);
-        return groups.stream().map(this::convertToDTO).collect(Collectors.toList());
+        logger.info("Number of groups found for user {}: {}", username, groups.size());
+        for (Group g : groups) {
+        logger.info("Group found: groupID={}, groupName={}, memberCount={}", g.getGroupID(), g.getGroupName(), g.getGroupMembers().size());
+        for (User member : g.getGroupMembers()) {
+            logger.info("Member of groupID={}: userID={}, userName={}", g.getGroupID(), member.getUserID(), member.getUserName());
+        }
     }
+
+    List<GroupDTO> groupDTOs = groups.stream().map(this::convertToGroupDTO).collect(Collectors.toList());
+    logger.info("GroupDTOs created, count={}", groupDTOs.size());
+    return groupDTOs;
+}
+
     public List<ExpenseDTO> getExpensesByGroup(Long groupId) {
         Optional<Group> group = groupRepo.findById(groupId);
         if (group.isPresent()) {
@@ -204,17 +229,19 @@ public class GroupService {
             throw new IllegalArgumentException("Expense not found");
         }
     }
-
-        private GroupDTO convertToDTO(Group group) {
+        @Transactional
+        private GroupDTO convertToGroupDTO(Group group) {
             GroupDTO groupDTO = new GroupDTO();
             groupDTO.setGroupID(group.getGroupID());
             groupDTO.setGroupName(group.getGroupName());
             groupDTO.setGroupDesc(group.getGroupDesc());
             groupDTO.setPictureUrl(group.getPictureUrl());
+
             List<String> usernames = group.getGroupMembers().stream()
                 .map(User::getUserName)
                 .collect(Collectors.toList());
             groupDTO.setUsernames(usernames);
+            logger.info("GroupDTO from convertToGroupDTO  created: , usernames={}", groupDTO.getUsernames());
             return groupDTO;
         }
         private ExpenseDTO convertToDTO(Expense expense) {

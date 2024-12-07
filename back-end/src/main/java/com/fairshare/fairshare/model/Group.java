@@ -1,6 +1,7 @@
 package com.fairshare.fairshare.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import jakarta.persistence.*;
@@ -31,6 +32,7 @@ public class Group {
         joinColumns = @JoinColumn(name = "groupID"),
         inverseJoinColumns = @JoinColumn(name = "userID")
     )
+    @EqualsAndHashCode.Exclude
     private Set<User> groupMembers = new HashSet<>();
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -1,6 +1,7 @@
 package com.fairshare.fairshare.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import jakarta.persistence.*;
@@ -39,6 +40,7 @@ public class User {
     private boolean isGuest;
 
     @ManyToMany(mappedBy = "groupMembers")
+    @EqualsAndHashCode.Exclude
     private Set<Group> groups = new HashSet<>();
 
     @OneToMany(mappedBy = "paidByUser", cascade = CascadeType.ALL, orphanRemoval = true)

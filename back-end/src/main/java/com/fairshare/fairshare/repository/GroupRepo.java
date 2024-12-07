@@ -11,8 +11,10 @@ import java.util.List;
 
 @Repository
 public interface GroupRepo extends JpaRepository<Group, Long> {
-    List<Group> findByGroupMembersContaining(User user);
 
     @Query("SELECT g.groupMembers FROM Group g WHERE g.groupID = :groupId")
     List<User> findGroupMembersByGroupId(Long groupId);
+
+    @Query("SELECT g FROM Group g JOIN FETCH g.groupMembers WHERE :user MEMBER OF g.groupMembers")
+    List<Group> findByGroupMembersContaining(User user);
 }
