@@ -16,6 +16,7 @@ export const searchUsers = async (query, token, groupMembers) => {
       throw new Error('Failed to fetch users');
     }
     const results = await response.json();
+    console.log(results)
     return results; // Return the results as they are
   } catch (error) {
     console.error('Error fetching users:', error);

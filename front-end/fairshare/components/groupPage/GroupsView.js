@@ -1,24 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { fetchUserGroups } from '../../services/groupService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function GroupsView({ navigation }) {
   const [groups, setGroups] = useState([]);
 
-  useEffect(() => {
-    const fetchGroups = async () => {
-      try {
-        const token = await AsyncStorage.getItem('userToken');
-        const userGroups = await fetchUserGroups(token);
-        setGroups(userGroups);
-      } catch (error) {
-        console.error('Error fetching user groups:', error);
-      }
-    };
+  const fetchGroups = async () => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      const userGroups = await fetchUserGroups(token);
+      setGroups(userGroups);
+    } catch (error) {
+      console.error('Error fetching user groups:', error);
+    }
+  };
 
-    fetchGroups();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchGroups();
+    }, [])
+  );
 
   return (
     <ScrollView contentContainerStyle={styles.container}>

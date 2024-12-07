@@ -16,14 +16,6 @@ export default function CreateGroupForm({ groupMembers, setGroupMembers, navigat
   const [guestFirstName, setGuestFirstName] = useState('');
   const [guestLastName, setGuestLastName] = useState('');
 
-  const staticUsers = [
-    { id: 1, userName: 'JohnDoe' },
-    { id: 2, userName: 'JaneSmith' },
-    { id: 3, userName: 'MikeJohnson' },
-    { id: 4, userName: 'EmilyDavis' },
-    { id: 5, userName: 'ChrisBrown' },
-    // Add more static users as needed
-  ];
 
   const handleSearch = async (query) => {
     setSearchQuery(query);
